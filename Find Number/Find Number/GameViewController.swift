@@ -14,6 +14,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var timerLabel: UILabel!
     
+    @IBOutlet weak var newGameButton: UIButton!
     lazy var game = Game(countItems: buttons.count,time: 30) { [weak self] status, time in
         guard let self = self else {return}
         self.timerLabel.text = time.secondsToString()
@@ -33,6 +34,11 @@ setupScreen()
         updateUI()
     }
     
+    @IBAction func newGame(_ sender: UIButton) {
+        game.newGame()
+        sender.isHidden = true
+        setupScreen()
+    }
     private func setupScreen(){
         
         for index in game.items.indices{
@@ -65,12 +71,15 @@ setupScreen()
         case .start:
             statusLabel.text = "Игра началась!"
             statusLabel.textColor = .black
+            newGameButton.isHidden = true
         case .win:
             statusLabel.text = "Вы выиграли!"
             statusLabel.textColor = .green
+            newGameButton.isHidden = false
         case .lose:
             statusLabel.text = "Вы проиграли!"
             statusLabel.textColor = .red
+            newGameButton.isHidden = false
 
         }
     }
